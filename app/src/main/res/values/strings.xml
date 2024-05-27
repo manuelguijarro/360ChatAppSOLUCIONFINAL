@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">360ChatApp</string>
+    <string name="nombre_aplicacion">360 Chat</string>
+    <string name="introduceEmail">Introduce tu email:</string>
+    <string name="email">Email</string>
+    <string name="introduce_email_buscar">Introduce el email</string>
+    <string name="introducePassword">Introduce tu password:</string>
+    <string name="vuelveIntroducePassword">Vuelve a introducir tu password:</string>
+    <string name="password">Password</string>
+    <string name="iniciarSesion">Iniciar Sesión</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="volver">Volver</string>
+    <string name="chat_screen">Chat Screen</string>
+    <string name="perfil_screen">Perfil Screen</string>
+    <string name="buscar_usuario">Buscar usuario</string>
+    <string name="nombre_usuario">Nombre de usuario</string>
+    <string name="email_usuario">Email de usuario</string>
+    <string name="escribe_mensaje">Escribe el mensaje</string>
+    <string name="actualizar_perfil_btn">ACTUALIZAR PERFIL</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
+</resources>

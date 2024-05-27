@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "105109533785",
+    "project_id": "chatapp-a49c2",
+    "storage_bucket": "chatapp-a49c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105109533785:android:3ec2a9d19f850a5036ed48",
+        "android_client_info": {
+          "package_name": "com.example.a360chatapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2BFO3kUak3x11M86GKK22Hp-1d3dcHpg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

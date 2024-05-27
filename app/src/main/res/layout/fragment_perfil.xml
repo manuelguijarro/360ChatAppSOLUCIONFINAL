@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.PerfilFragment"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_margin="20dp">
+
+
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:background="@drawable/circular_background"
+            android:backgroundTint="@color/primario"
+            android:src="@drawable/baseline_person_24_grey"
+            android:scaleType="centerCrop"
+
+            android:layout_marginBottom="40dp"
+            android:id="@+id/imagen_usuario_perfil"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:hint="@string/nombre_usuario"
+            android:inputType="text"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="5dp"
+            android:id="@+id/nombre_usuario_perfil"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:hint="@string/email_usuario"
+            android:inputType="textEmailAddress"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="5dp"
+            android:enabled="false"
+            android:id="@+id/email_usuario_perfil"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_rounded_corner"
+                    android:text="@string/actualizar_perfil_btn"
+                    android:id="@+id/btn_enviar_datos_perfil"
+                    />
+                <ProgressBar
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/barra_progreso_perfil"
+                    />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cerrar_sesion"
+            android:id="@+id/cerrar_sesion_btn"
+            />
+
+</LinearLayout>

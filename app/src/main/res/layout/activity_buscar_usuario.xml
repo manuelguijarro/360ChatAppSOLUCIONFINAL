@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.BuscarUsuarioActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primario"
+        android:padding="10dp"
+        android:id="@+id/toolbar">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/buscar_usuario"
+            android:textSize="22sp"
+            android:textColor="@color/white"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/btn_volver"/>
+
+        <ImageButton
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/baseline_arrow_back_24"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/white"
+            android:layout_centerVertical="true"
+            android:id="@+id/btn_volver" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_margin="10dp"
+        android:id="@+id/buscar_usuario_layout_re">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_rounded_corner"            android:layout_margin="10dp"
+            android:hint="@string/introduce_email_buscar"
+            android:textSize="15dp"
+            android:padding="10dp"
+            android:elevation="4dp"
+            android:layout_toLeftOf="@+id/btn_buscar_usuario"
+            android:id="@+id/input_buscar_usuario"/>
+        
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_search"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/btn_buscar_usuario"
+            android:layout_centerVertical="true"
+            app:tint="@color/primario"
+            android:padding="4dp"
+            android:layout_margin="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+    </RelativeLayout>
+    
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buscar_usuario_layout_re"
+        android:padding="10dp"
+        android:id="@+id/buscar_usuario_recycler_view"
+        />
+    
+</RelativeLayout>
