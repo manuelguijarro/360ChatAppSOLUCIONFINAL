@@ -18,4 +18,7 @@ public class GeneralUtil {
     public static void setImagenPerfil(Context context, Uri imagenUri, ImageView imageView){
         Glide.with(context).load(imagenUri).apply(RequestOptions.circleCropTransform()).into(imageView);
     }
+    public static void setImagenChat(Context context, Uri imagenUri, ImageView imageView){
+        Glide.with(context).load(imagenUri).apply(RequestOptions.circleCropTransform()).into(imageView);
+    }
 }

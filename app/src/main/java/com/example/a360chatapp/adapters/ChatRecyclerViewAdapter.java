@@ -1,13 +1,17 @@
 package com.example.a360chatapp.adapters;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +21,7 @@ import com.example.a360chatapp.activities.ChatIndividualActivity;
 import com.example.a360chatapp.db.models.Chat;
 import com.example.a360chatapp.db.models.Mensaje;
 import com.example.a360chatapp.firebase.FirebaseUtil;
+import com.example.a360chatapp.utils.GeneralUtil;
 import com.example.a360chatapp.utils.IntentUtil;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -42,20 +47,24 @@ public class ChatRecyclerViewAdapter extends FirestoreRecyclerAdapter<Mensaje, C
 
                 ChatViewHolder.imageViewDerecha.setVisibility(View.VISIBLE);
                 ChatViewHolder.mensajeDerecha.setVisibility(View.GONE);
-
+                String[] idImagenPals = mensaje.getUrlImagen().split("_");
+                String rutaBaseImagen = idImagenPals[0]+"_"+idImagenPals[1];
+                String rutaCompleta = mensaje.getUrlImagen();
+                descargarImagen(rutaBaseImagen,rutaCompleta,ChatViewHolder.imageViewDerecha);
             }else{
                 ChatViewHolder.plantillaChatDerecha.setVisibility(View.GONE);
                 ChatViewHolder.plantillaChatIzquierda.setVisibility(View.VISIBLE);
 
                 ChatViewHolder.imageViewIzquierda.setVisibility(View.VISIBLE);
                 ChatViewHolder.mensajeIzquierda.setVisibility(View.GONE);
+                String[] idImagenPals = mensaje.getUrlImagen().split("_");
+                String rutaBaseImagen = idImagenPals[0]+"_"+idImagenPals[1];
+                String rutaCompleta = mensaje.getUrlImagen();
+                descargarImagen(rutaBaseImagen,rutaCompleta,ChatViewHolder.imageViewIzquierda);
 
 
             }
-            String[] idImagenPals = mensaje.getUrlImagen().split("_");
-            String rutaBaseImagen = idImagenPals[0]+"_"+idImagenPals[1];
-            String rutaCompleta = mensaje.getUrlImagen();
-            descargarImagen(rutaBaseImagen,rutaCompleta);
+
         }else{
             if (mensaje.getIdEmisor().equals(FirebaseUtil.obtenerUsuarioUid())){
                 ChatViewHolder.plantillaChatIzquierda.setVisibility(View.GONE);
@@ -75,6 +84,31 @@ public class ChatRecyclerViewAdapter extends FirestoreRecyclerAdapter<Mensaje, C
         }
     }
 
+    private void descargarImagen(String rutaBaseImagen, String rutaCompleta, ImageView imageViewChat) {
+        FirebaseUtil.obtenerReferenciaCompletaDescargar(rutaBaseImagen, rutaCompleta).getDownloadUrl().addOnCompleteListener(t -> {
+            if (t.isSuccessful()) {
+                Uri uri = t.getResult();
+                GeneralUtil.setImagenChat(context, uri, imageViewChat);
+
+                imageViewChat.setOnClickListener(v -> {
+                    descargarImagenEnDispositivo(uri);
+                });
+            }
+        });
+    }
+    private void descargarImagenEnDispositivo(Uri uri) {
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        Toast.makeText(context, "descargando imagen", Toast.LENGTH_LONG).show();
+        request.setTitle("Descargando imagen");
+        request.setDescription("Descargando imagen desde el chat");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, uri.getLastPathSegment());
+
+        if (downloadManager != null) {
+            downloadManager.enqueue(request);
+        }
+    }
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

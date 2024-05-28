@@ -127,4 +127,11 @@ public class FirebaseUtil {
         }
 
     }
+    public static StorageReference obtenerReferenciaCompletaDescargar(String rutaBase,String rutaCompleta){
+        return FirebaseStorage
+                .getInstance()
+                .getReference()
+                .child(rutaBase)
+                .child(rutaCompleta);
+    }
 }
