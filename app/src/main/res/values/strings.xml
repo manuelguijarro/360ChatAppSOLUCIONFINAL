@@ -18,4 +18,5 @@
     <string name="escribe_mensaje">Escribe el mensaje</string>
     <string name="actualizar_perfil_btn">ACTUALIZAR PERFIL</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="enviar_imagen">   Enviando imagen…</string>
 </resources>

@@ -6,14 +6,34 @@ public class Mensaje {
     private String mensaje;
     private String idEmisor;
     private Timestamp timestamp;
+    private boolean esImagen;
+    private String urlImagen;
 
     public Mensaje() {
     }
 
-    public Mensaje(String mensaje, String idEmisor, Timestamp timestamp) {
+    public Mensaje(String mensaje, String idEmisor, Timestamp timestamp, boolean esImagen, String urlImagen) {
         this.mensaje = mensaje;
         this.idEmisor = idEmisor;
         this.timestamp = timestamp;
+        this.esImagen = esImagen;
+        this.urlImagen = urlImagen;
+    }
+
+    public boolean isEsImagen() {
+        return esImagen;
+    }
+
+    public void setEsImagen(boolean esImagen) {
+        this.esImagen = esImagen;
+    }
+
+    public String getUrlImagen() {
+        return urlImagen;
+    }
+
+    public void setUrlImagen(String urlImagen) {
+        this.urlImagen = urlImagen;
     }
 
     public String getMensaje() {

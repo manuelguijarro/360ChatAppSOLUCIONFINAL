@@ -111,5 +111,20 @@ public class FirebaseUtil {
                 .child("imagen_perfil")
                 .child(idOtroUsuario);
     }
+    public static StorageReference obtenerReferenciaStorageChatImagenes(String idUsuario1, String idUsuario2,String idUnico){
+        if (idUsuario1.hashCode() < idUsuario2.hashCode())
+            return FirebaseStorage
+                    .getInstance()
+                    .getReference()
+                    .child(idUsuario1 + "_" + idUsuario2)
+                    .child(idUnico);
+        else{
+            return FirebaseStorage
+                    .getInstance()
+                    .getReference()
+                    .child(idUsuario2 + "_" + idUsuario1)
+                    .child(idUnico);
+        }
 
+    }
 }

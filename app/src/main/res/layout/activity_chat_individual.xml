@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".activities.ChatIndividualActivity">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,15 +23,15 @@
             android:layout_marginStart="10dp"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/imagen_perfil_chat_usuario"
-            android:id="@+id/nombre_usuario_chat"/>
+            android:id="@+id/nombre_usuario_chat" />
 
         <include layout="@layout/perfil_imagen_view"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="10dp"
             android:layout_toRightOf="@id/btn_volver_chat"
-            android:id="@+id/imagen_perfil_chat_usuario"
-            />
+            android:id="@+id/imagen_perfil_chat_usuario" />
+
         <ImageButton
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -42,7 +41,6 @@
             android:layout_centerVertical="true"
             android:id="@+id/btn_volver_chat" />
 
-
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -50,15 +48,34 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
         android:layout_above="@id/bottom_layout"
-        android:id="@+id/chat_recycler_view"/>
-    
+        android:id="@+id/chat_recycler_view" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:padding="8dp"
         android:id="@+id/bottom_layout">
-        
+
+        <TextView
+            android:id="@+id/enviando_imagen_texto"
+            android:layout_width="234dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="4dp"
+            android:padding="5dp"
+            android:text="@string/enviar_imagen"
+            android:textColor="@color/primario"
+            android:textSize="22sp"
+            android:visibility="gone" />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,7 +86,19 @@
             android:elevation="4dp"
             android:padding="10dp"
             android:layout_toLeftOf="@+id/btn_enviar_mensaje_imagen"
-            android:id="@+id/mensaje_chat_input"/>
+            android:id="@+id/mensaje_chat_input" />
+
+        <ProgressBar
+            android:id="@+id/progressBarChatIndividual"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:padding="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@+id/mensaje_chat_input"
+            android:visibility="gone" />
+
         <ImageButton
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -80,9 +109,8 @@
             android:layout_marginStart="10dp"
             app:tint="@color/primario"
             android:id="@+id/btn_enviar_mensaje_imagen"
-            android:layout_toLeftOf="@+id/btn_enviar_mensaje"
+            android:layout_toLeftOf="@+id/btn_enviar_mensaje" />
 
-            />
         <ImageButton
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -93,7 +121,7 @@
             android:padding="8dp"
             android:layout_marginStart="10dp"
             app:tint="@color/primario"
-            android:id="@+id/btn_enviar_mensaje"
-            />
+            android:id="@+id/btn_enviar_mensaje" />
+
     </RelativeLayout>
 </RelativeLayout>
