@@ -34,14 +34,44 @@ public class ChatRecyclerViewAdapter extends FirestoreRecyclerAdapter<Mensaje, C
     protected void onBindViewHolder(@NonNull ChatViewHolder ChatViewHolder, int i, @NonNull Mensaje mensaje) {
         //Aqui comprobamos si el mensaje es emitido por una persona con nuestro id
         //si lo es aparece a la izkierda sino a la derecha
-        if (mensaje.getIdEmisor().equals(FirebaseUtil.obtenerUsuarioUid())){
-            ChatViewHolder.plantillaChatIzquierda.setVisibility(View.GONE);
-            ChatViewHolder.plantillaChatDerecha.setVisibility(View.VISIBLE);
-            ChatViewHolder.mensajeDerecha.setText(mensaje.getMensaje());
+
+        if (mensaje.isEsImagen()){
+            if (mensaje.getIdEmisor().equals(FirebaseUtil.obtenerUsuarioUid())){
+                ChatViewHolder.plantillaChatIzquierda.setVisibility(View.GONE);
+                ChatViewHolder.plantillaChatDerecha.setVisibility(View.VISIBLE);
+
+                ChatViewHolder.imageViewDerecha.setVisibility(View.VISIBLE);
+                ChatViewHolder.mensajeDerecha.setVisibility(View.GONE);
+
+            }else{
+                ChatViewHolder.plantillaChatDerecha.setVisibility(View.GONE);
+                ChatViewHolder.plantillaChatIzquierda.setVisibility(View.VISIBLE);
+
+                ChatViewHolder.imageViewIzquierda.setVisibility(View.VISIBLE);
+                ChatViewHolder.mensajeIzquierda.setVisibility(View.GONE);
+
+
+            }
+            String[] idImagenPals = mensaje.getUrlImagen().split("_");
+            String rutaBaseImagen = idImagenPals[0]+"_"+idImagenPals[1];
+            String rutaCompleta = mensaje.getUrlImagen();
+            descargarImagen(rutaBaseImagen,rutaCompleta);
         }else{
-            ChatViewHolder.plantillaChatDerecha.setVisibility(View.GONE);
-            ChatViewHolder.plantillaChatIzquierda.setVisibility(View.VISIBLE);
-            ChatViewHolder.mensajeIzquierda.setText(mensaje.getMensaje());
+            if (mensaje.getIdEmisor().equals(FirebaseUtil.obtenerUsuarioUid())){
+                ChatViewHolder.plantillaChatIzquierda.setVisibility(View.GONE);
+                ChatViewHolder.plantillaChatDerecha.setVisibility(View.VISIBLE);
+                ChatViewHolder.imageViewDerecha.setVisibility(View.GONE);
+                ChatViewHolder.mensajeDerecha.setVisibility(View.VISIBLE);
+
+                ChatViewHolder.mensajeDerecha.setText(mensaje.getMensaje());
+            }else{
+                ChatViewHolder.plantillaChatDerecha.setVisibility(View.GONE);
+                ChatViewHolder.plantillaChatIzquierda.setVisibility(View.VISIBLE);
+
+                ChatViewHolder.imageViewIzquierda.setVisibility(View.GONE);
+                ChatViewHolder.mensajeIzquierda.setVisibility(View.VISIBLE);
+                ChatViewHolder.mensajeIzquierda.setText(mensaje.getMensaje());
+            }
         }
     }
 
@@ -54,8 +84,10 @@ public class ChatRecyclerViewAdapter extends FirestoreRecyclerAdapter<Mensaje, C
 
     public class ChatViewHolder extends RecyclerView.ViewHolder{
         private LinearLayout plantillaChatIzquierda;
+        private ImageView imageViewIzquierda;
         private TextView mensajeIzquierda;
         private LinearLayout plantillaChatDerecha;
+        private ImageView imageViewDerecha;
         private TextView mensajeDerecha;
 
         public ChatViewHolder(@NonNull View itemView) {
@@ -65,6 +97,8 @@ public class ChatRecyclerViewAdapter extends FirestoreRecyclerAdapter<Mensaje, C
             plantillaChatDerecha = itemView.findViewById(R.id.right_chat_layout);
             mensajeIzquierda = itemView.findViewById(R.id.left_chat_text);
             mensajeDerecha = itemView.findViewById(R.id.right_chat_text);
+            imageViewIzquierda = itemView.findViewById(R.id.left_chat_imagen);
+            imageViewDerecha = itemView.findViewById(R.id.right_chat_imagen);
         }
     }
 }
