@@ -3,6 +3,7 @@ package com.example.a360chatapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 String tokenNotificacion = task.getResult();
+                Log.i("Token de usuario: ", tokenNotificacion);
                 FirebaseUtil.obtenerDetallesUsuarioActual().update("tokenNotificacion",tokenNotificacion);
             }
         });

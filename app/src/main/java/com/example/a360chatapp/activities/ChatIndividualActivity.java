@@ -235,7 +235,7 @@ public class ChatIndividualActivity extends AppCompatActivity {
     private void cargarEventoVolver(View view) {
         onBackPressed();
     }
-
+/*
     private void setEnProgreso(boolean enProgreso) {
         if (enProgreso) {
             btnEnviarMensaje.setVisibility(View.GONE);
@@ -253,4 +253,5 @@ public class ChatIndividualActivity extends AppCompatActivity {
             btnVolver.setVisibility(View.VISIBLE);
         }
     }
+    */
 }

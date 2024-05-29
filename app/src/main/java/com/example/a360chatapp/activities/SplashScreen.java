@@ -30,7 +30,27 @@ public class SplashScreen extends AppCompatActivity {
             return insets;
         });
         cargarRecursosVista();
-        cargarActivity();
+        if (FirebaseUtil.estaUsuarioLogeado() && null != getIntent().getExtras()){
+            String idUsuario = getIntent().getExtras().getString("idUsuario");
+            FirebaseUtil.usuariosCollectionReference().document(idUsuario).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+
+                    Usuario usuario = task.getResult().toObject(Usuario.class);
+                    Intent mainIntent = new Intent(this,MainActivity.class);
+                    mainIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(mainIntent);
+
+                    Intent intentChatActivity = new Intent(this, ChatIndividualActivity.class);
+                    IntentUtil.enviarUsuarioIntent(intentChatActivity, usuario);
+                    intentChatActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intentChatActivity);
+                    finish();
+                }
+            });
+        }else{
+            cargarActivity();
+        }
+
     }
 
     private void cargarRecursosVista() {
@@ -39,32 +59,7 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     private void cargarActivity() {
-        if (FirebaseUtil.estaUsuarioLogeado() && null != getIntent().getExtras()) {
-            String idUsuario = getIntent().getExtras().getString("idUsuario");
-            if (idUsuario != null && !idUsuario.isEmpty()) {
-                FirebaseUtil.usuariosCollectionReference().document(idUsuario).get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        Usuario usuario = task.getResult().toObject(Usuario.class);
-                        if (usuario != null) {
-                            Intent intentMainActivity = new Intent(this, MainActivity.class);
-                            startActivity(intentMainActivity);
 
-                            Intent intentChatActivity = new Intent(this, ChatIndividualActivity.class);
-                            IntentUtil.enviarUsuarioIntent(intentChatActivity, usuario);
-                            intentChatActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intentChatActivity);
-                            finish();
-                        } else {
-                            manejarUsuarioNulo();
-                        }
-                    } else {
-                        manejarUsuarioNulo();
-                    }
-                });
-            } else {
-                manejarUsuarioNulo();
-            }
-        } else {
             new Handler().postDelayed(() -> {
                 Intent intent;
                 if (FirebaseUtil.estaUsuarioLogeado()) {
@@ -76,11 +71,5 @@ public class SplashScreen extends AppCompatActivity {
                 finish();
             }, 2000);
         }
-    }
 
-    private void manejarUsuarioNulo() {
-        Intent intent = new Intent(SplashScreen.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
 }
