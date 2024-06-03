@@ -1,9 +1,33 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme._360ChatApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primario</item>
-        <item name="colorPrimaryVariant">@color/primario</item>
+        <item name="colorPrimary">@color/primario_azul</item>
+        <item name="colorPrimaryVariant">@color/primario_azul</item>
     </style>
 
     <style name="Theme._360ChatApp" parent="Base.Theme._360ChatApp" />
+
+    <style name="OverlayThemeAzul" parent="Base.Theme._360ChatApp">
+        <item name="colorPrimary">@color/primario_azul</item>
+        <item name="colorPrimaryVariant">@color/primario_azul</item>
+    </style>
+
+    <style name="OverlayThemeRosaClaro" parent="Base.Theme._360ChatApp">
+        <item name="colorPrimary">@color/primario_rosa</item>
+        <item name="colorPrimaryVariant">@color/primario_rosa</item>
+    </style>
+
+    <style name="OverlayThemeMarron" parent="Base.Theme._360ChatApp">
+        <item name="colorPrimary">@color/primario_marron</item>
+        <item name="colorPrimaryVariant">@color/primario_marron</item>
+    </style>
+
+    <style name="OverlayThemeAmarilloClaro" parent="Base.Theme._360ChatApp">
+        <item name="colorPrimary">@color/primario_amarillo</item>
+        <item name="colorPrimaryVariant">@color/primario_amarillo</item>
+    </style>
+
+    <style name="OverlayThemeVerdeClaro" parent="Base.Theme._360ChatApp">
+        <item name="colorPrimary">@color/primario_verde</item>
+        <item name="colorPrimaryVariant">@color/primario_verde</item>
+    </style>
 </resources>

@@ -1,14 +1,20 @@
 package com.example.a360chatapp.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.UserManager;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,8 +45,20 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class ChatIndividualActivity extends AppCompatActivity {
     private Chat chat;
@@ -56,11 +74,11 @@ public class ChatIndividualActivity extends AppCompatActivity {
     private ImageView imageViewPerfilUsuario;
     private ActivityResultLauncher<Intent> imagePickerLauncher;
     private Uri imagenSeleccionadaUri;
-    private ProgressBar progressBarChatIndividualView;
-    private TextView enviandoImagenTexto;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        aplicarTema();
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_chat_individual);
@@ -69,6 +87,7 @@ public class ChatIndividualActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         imagePickerLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
@@ -79,15 +98,45 @@ public class ChatIndividualActivity extends AppCompatActivity {
                         }
                     }
                 });
-        // Objeto usuario
         usuarioChat = IntentUtil.obtenerUsuarioIntent(getIntent());
         idChat = FirebaseUtil.obtenerIdChat(FirebaseUtil.obtenerUsuarioUid(), usuarioChat.getId());
         cargarRecursosVista();
         cargarEventosBtn();
         ObtenerOCrearChat();
+        actualizarUI();
         actualizarChatRecyclerView();
     }
 
+    private void actualizarUI() {
+        try {
+            TypedValue typedValue = new TypedValue();
+            getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+            int colorPrimary = typedValue.data;
+
+            // Actualiza el fondo del toolbar
+            RelativeLayout toolbar = findViewById(R.id.toolbar);
+            toolbar.setBackgroundColor(colorPrimary);
+
+            // Actualiza otros componentes si es necesario
+            ImageButton btnEnviarMensaje = findViewById(R.id.btn_enviar_mensaje);
+            btnEnviarMensaje.setColorFilter(colorPrimary);
+
+            ImageButton btnEnviarMensajeImagen = findViewById(R.id.btn_enviar_mensaje_imagen);
+            btnEnviarMensajeImagen.setColorFilter(colorPrimary);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void aplicarTema() {
+        try {
+            SharedPreferences preferences = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
+            int themeId = preferences.getInt("selected_theme", R.style.Base_Theme__360ChatApp); // Default theme
+            setTheme(themeId);
+        }catch (Exception e){
+
+        }
+    }
     private void actualizarChatRecyclerView() {
         Query query = FirebaseUtil.obtenerMensajeChatReferencia(idChat)
                 .orderBy("timestamp", Query.Direction.DESCENDING);
@@ -98,7 +147,6 @@ public class ChatIndividualActivity extends AppCompatActivity {
         chatRecyclerViewAdapter = new ChatRecyclerViewAdapter(opt, getApplicationContext());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        // Para que los mensajes se muestren de abajo hacia arriba
         linearLayoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(chatRecyclerViewAdapter);
@@ -129,22 +177,13 @@ public class ChatIndividualActivity extends AppCompatActivity {
     }
 
     private void cargarRecursosVista() {
-        // Input
         mensajeInput = findViewById(R.id.mensaje_chat_input);
-        // Botones
         btnEnviarMensajeImagen = findViewById(R.id.btn_enviar_mensaje_imagen);
         btnEnviarMensaje = findViewById(R.id.btn_enviar_mensaje);
         btnVolver = findViewById(R.id.btn_volver_chat);
-        // ProgressBar
-        progressBarChatIndividualView = findViewById(R.id.progressBarChatIndividual);
-        // TextView
         nombreUsuario = findViewById(R.id.nombre_usuario_chat);
-        enviandoImagenTexto = findViewById(R.id.enviando_imagen_texto);
-        // Cargar el nombre del usuario
         nombreUsuario.setText(usuarioChat.getNombre());
-        // RecyclerView
         recyclerView = findViewById(R.id.chat_recycler_view);
-        // Imagen
         imageViewPerfilUsuario = findViewById(R.id.perfil_imagen_view);
         FirebaseUtil.obtenerOtraReferenciaStorage(usuarioChat.getId()).getDownloadUrl().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -162,7 +201,6 @@ public class ChatIndividualActivity extends AppCompatActivity {
 
     private void enviarImagenSeleccionada() {
         if (imagenSeleccionadaUri != null) {
-            //setEnProgreso(true);
             Toast.makeText(this, "Enviando imagen", Toast.LENGTH_SHORT).show();
             String uniqueID = UUID.randomUUID().toString();
             String mensaje = "imagen.jpg";
@@ -181,7 +219,6 @@ public class ChatIndividualActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUtil.obtenerMensajeChatReferencia(idChat).add(mensajeModel)
                                     .addOnCompleteListener(taskSecond -> {
-                                        //setEnProgreso(false);
                                         if (taskSecond.isSuccessful()) {
                                             Toast.makeText(this, "Imagen enviada correctamente", Toast.LENGTH_LONG).show();
                                         } else {
@@ -189,7 +226,6 @@ public class ChatIndividualActivity extends AppCompatActivity {
                                         }
                                     });
                         } else {
-                           // setEnProgreso(false);
                             Toast.makeText(this, "Error al subir la imagen", Toast.LENGTH_LONG).show();
                         }
                     });
@@ -215,7 +251,6 @@ public class ChatIndividualActivity extends AppCompatActivity {
         }
         enviarMensajeAUsuario(mensaje);
     }
-
     private void enviarMensajeAUsuario(String mensaje) {
         chat.setUltimoMensajeTimestamp(Timestamp.now());
         chat.setIdUltimoMensajeEmisor(FirebaseUtil.obtenerUsuarioUid());
@@ -228,30 +263,63 @@ public class ChatIndividualActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         mensajeInput.setText("");
+                        enviarNotificacionServidor(mensaje);
                     }
                 });
+    }
+
+    private void enviarNotificacionServidor(String mensaje) {
+
+        FirebaseUtil.obtenerDetallesUsuarioActual().get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                Usuario usuarioActual = task.getResult().toObject(Usuario.class);
+
+                try {
+                    String tittle = usuarioActual.getNombre();
+                    String body = mensaje;
+                    String id = usuarioActual.getId();
+                    String token = usuarioChat.getTokenNotificacion();
+                    String url = "https://server-bender-express.onrender.com/notifications";
+                    url += "?tittle=" + tittle + "&body=" + body + "&id=" + id + "&to=" + token;
+                    callApi(url);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    private void callApi(String url) {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                Log.e("API_CALL", "Error sending request", e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    Log.i("API_CALL", "Request successful: " + response.body().string());
+                } else {
+                    Log.e("API_CALL", "Request failed: " + response.body().string());
+                }
+            }
+        });
     }
 
     private void cargarEventoVolver(View view) {
         onBackPressed();
     }
-/*
-    private void setEnProgreso(boolean enProgreso) {
-        if (enProgreso) {
-            btnEnviarMensaje.setVisibility(View.GONE);
-            btnEnviarMensajeImagen.setVisibility(View.GONE);
-            mensajeInput.setVisibility(View.GONE);
-            btnVolver.setVisibility(View.INVISIBLE);
-            progressBarChatIndividualView.setVisibility(View.VISIBLE);
-            enviandoImagenTexto.setVisibility(View.VISIBLE);
-        } else {
-            progressBarChatIndividualView.setVisibility(View.GONE);
-            enviandoImagenTexto.setVisibility(View.GONE);
-            mensajeInput.setVisibility(View.VISIBLE);
-            btnEnviarMensaje.setVisibility(View.VISIBLE);
-            btnEnviarMensajeImagen.setVisibility(View.VISIBLE);
-            btnVolver.setVisibility(View.VISIBLE);
-        }
-    }
-    */
+
 }

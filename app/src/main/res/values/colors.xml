@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primario">#8fdde7</color>
+    <color name="primario_azul">#8fdde7</color>
+    <color name="primario_rosa">#ffb3ba</color>
+    <color name="primario_marron">#ffdfba</color>
+    <color name="primario_amarillo">#ffffba</color>
+    <color name="primario_verde">#baffc9</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="primario">#8fdde7</color>
 
     <color name="blanco_sombreado">#FAFAFA</color>
     <color name="gris_claro">#C3C3C3</color>

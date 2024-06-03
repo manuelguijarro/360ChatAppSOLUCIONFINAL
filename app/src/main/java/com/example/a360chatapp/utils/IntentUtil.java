@@ -10,6 +10,7 @@ public class IntentUtil {
             intent.putExtra("nombre", usuario.getNombre());
             intent.putExtra("email", usuario.getEmail());
             intent.putExtra("id", usuario.getId());
+            intent.putExtra("tokenNotificacion", usuario.getTokenNotificacion());
         }
     }
 
@@ -18,6 +19,7 @@ public class IntentUtil {
         usuario.setNombre(intent.getStringExtra("nombre"));
         usuario.setEmail(intent.getStringExtra("email"));
         usuario.setId(intent.getStringExtra("id"));
+        usuario.setTokenNotificacion(intent.getStringExtra("tokenNotificacion"));
         return usuario;
     }
 }

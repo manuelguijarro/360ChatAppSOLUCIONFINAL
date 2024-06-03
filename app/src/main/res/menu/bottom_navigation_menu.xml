@@ -9,4 +9,8 @@
         android:id="@+id/menu_perfil"
         android:title="Perfil"
         android:icon="@drawable/baseline_person_24"/>
+    <item
+        android:id="@+id/menu_ajustes"
+        android:title="Ajustes"
+        android:icon="@drawable/baseline_app_settings_alt_24"/>
 </menu>

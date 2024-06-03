@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.AjusteFragment"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_margin="20dp">
+
+
+    <TextView
+        android:id="@+id/textViewIdioma"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/selecciona_idioma_primario" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
+        android:gravity="center"
+
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textViewIdiomaES"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="ES"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:id="@+id/textViewIdiomaUS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="US"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/selecciona_color_primario" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
+        android:gravity="center"
+
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_color_primario_rosa"
+            android:layout_width="35dp"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/primario_rosa"
+             />
+        <Button
+            android:layout_width="35dp"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/primario_amarillo"
+            android:id="@+id/btn_color_primario_amarillo"/>
+        <Button
+            android:layout_width="35dp"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/primario_marron"
+            android:id="@+id/btn_color_primario_marron"/>
+        <Button
+            android:layout_width="35dp"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/primario_verde"
+            android:id="@+id/btn_color_primario_verde"/>
+        <Button
+            android:layout_width="35dp"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/primario_azul"
+            android:id="@+id/btn_color_primario_azul"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:text="@string/actualizar_ajuste_btn"
+            android:id="@+id/btn_enviar_datos_perfil"
+            />
+        <ProgressBar
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/barra_progreso_perfil"
+            />
+    </LinearLayout>
+
+
+
+</LinearLayout>

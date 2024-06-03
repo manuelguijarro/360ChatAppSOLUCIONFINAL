@@ -17,6 +17,11 @@
     <string name="email_usuario">Email de usuario</string>
     <string name="escribe_mensaje">Escribe el mensaje</string>
     <string name="actualizar_perfil_btn">ACTUALIZAR PERFIL</string>
+    <string name="actualizar_ajuste_btn">ACTUALIZAR AJUSTES</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="enviar_imagen">   Enviando imagen…</string>
+    <string name="selecciona_color_primario">Selecciona el color primario para la App</string>
+    <string name="selecciona_idioma_primario">Selecciona el idioma principal para la App</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
