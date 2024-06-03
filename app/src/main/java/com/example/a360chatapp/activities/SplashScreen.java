@@ -3,18 +3,12 @@ package com.example.a360chatapp.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
-import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,7 +38,6 @@ public class SplashScreen extends AppCompatActivity {
         actualizarUI();
         cargarRecursosVista();
 
-
         if (FirebaseUtil.estaUsuarioLogeado() && getIntent().getExtras() != null) {
             String idUsuario = getIntent().getExtras().getString("id");
             if (idUsuario != null) {
@@ -70,16 +63,33 @@ public class SplashScreen extends AppCompatActivity {
             cargarActivity();
         }
     }
+
     private void actualizarUI() {
         try {
             TypedValue typedValue = new TypedValue();
             getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
             int colorPrimary = typedValue.data;
 
-            // Obtiene la referencia de tu ProgressBar
             ProgressBar progressBarSplashScreenObj = findViewById(R.id.progressBarSplashScreen);
             progressBarSplashScreenObj.getIndeterminateDrawable().setColorFilter(colorPrimary, PorterDuff.Mode.MULTIPLY);
 
+            imagenLogo = findViewById(R.id.logo360chat);
+            int drawableId;
+
+            // Comparar el colorPrimary con los valores hexadecimales de los colores
+            if (colorPrimary == 0xFFFFB3BA) { // Color rosa claro
+                drawableId = R.drawable._60chatrosa;
+            } else if (colorPrimary == 0xFFFFDFBA) { // Color marrón pastel
+                drawableId = R.drawable._60chatmarron;
+            } else if (colorPrimary == 0xFFFFFFBA) { // Color amarillo pastel
+                drawableId = R.drawable._60chatamarrillo;
+            } else if (colorPrimary == 0xFFBAFFC9) { // Color verde pastel
+                drawableId = R.drawable._60chatverde;
+            } else {
+                drawableId = R.drawable._60chat; // Default drawable
+            }
+
+            imagenLogo.setImageResource(drawableId);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,13 +101,14 @@ public class SplashScreen extends AppCompatActivity {
             SharedPreferences preferences = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
             int themeId = preferences.getInt("selected_theme", R.style.Base_Theme__360ChatApp); // Default theme
             setTheme(themeId);
-        }catch (Exception e){
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
     private void cargarRecursosVista() {
         imagenLogo = findViewById(R.id.logo360chat);
-        imagenLogo.setImageResource(R.drawable._60chat);
+       // imagenLogo.setImageResource(R.drawable._60chat);
     }
 
     private void cargarActivity() {
@@ -112,5 +123,4 @@ public class SplashScreen extends AppCompatActivity {
             finish();
         }, 2000);
     }
-
 }
