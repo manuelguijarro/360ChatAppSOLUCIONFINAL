@@ -50,46 +50,133 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="@string/selecciona_color_primario" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:gravity="center"
 
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_color_primario_rosa"
-            android:layout_width="35dp"
-            android:layout_height="45dp"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/primario_rosa"
-             />
-        <Button
-            android:layout_width="35dp"
-            android:layout_height="45dp"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/primario_amarillo"
-            android:id="@+id/btn_color_primario_amarillo"/>
-        <Button
-            android:layout_width="35dp"
-            android:layout_height="45dp"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/primario_marron"
-            android:id="@+id/btn_color_primario_marron"/>
-        <Button
-            android:layout_width="35dp"
-            android:layout_height="45dp"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/primario_verde"
-            android:id="@+id/btn_color_primario_verde"/>
-        <Button
-            android:layout_width="35dp"
-            android:layout_height="45dp"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/primario_azul"
-            android:id="@+id/btn_color_primario_azul"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_color_primario_rosa"
+                android:layout_width="35dp"
+                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/primario_rosa" />
+
+            <TextView
+                android:id="@+id/elevacion_color_rosa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_color_primario_amarillo"
+                android:layout_width="35dp"
+                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/primario_amarillo"
+
+                />
+
+            <TextView
+                android:id="@+id/elevacion_color_amarillo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_color_primario_marron"
+                android:layout_width="35dp"
+                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/primario_marron" />
+
+            <TextView
+                android:id="@+id/elevacion_color_marron"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:visibility="gone" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_color_primario_verde"
+                android:layout_width="35dp"
+                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/primario_verde" />
+
+            <TextView
+                android:id="@+id/elevacion_color_verde"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:visibility="gone" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_color_primario_azul"
+                android:layout_width="35dp"
+                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:layout_marginTop="0dp"
+                android:backgroundTint="@color/primario_azul" />
+
+            <TextView
+                android:id="@+id/elevacion_color_azul"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:visibility="gone" />
+        </LinearLayout>
+
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -101,14 +188,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_rounded_corner"
             android:text="@string/actualizar_ajuste_btn"
-            android:id="@+id/btn_enviar_datos_perfil"
+            android:id="@+id/btn_actualizar_ajustes"
             />
-        <ProgressBar
-            android:layout_width="32dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/barra_progreso_perfil"
-            />
+
     </LinearLayout>
 
 

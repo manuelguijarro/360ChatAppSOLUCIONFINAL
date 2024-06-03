@@ -1,7 +1,11 @@
 package com.example.a360chatapp.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -11,13 +15,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +55,7 @@ public class PerfilFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        aplicarTema();
         super.onCreate(savedInstanceState);
         imagePickerLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result ->{
@@ -69,12 +77,35 @@ public class PerfilFragment extends Fragment {
         cargarRecursosVista(view);
         cargarDatosUsuarioActual();
         cargarEventosBtn();
+        actualizarUI(view);
         return view;
 
 
 
     }
+    private void actualizarUI(View view) {
+        try {
+            TypedValue typedValue = new TypedValue();
+            getContext().getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+            int colorPrimary = typedValue.data;
+            imagenPerfil.setBackgroundTintList(ColorStateList.valueOf(colorPrimary));
 
+            progressBarPerfil.getIndeterminateDrawable().setColorFilter(colorPrimary, PorterDuff.Mode.MULTIPLY);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void aplicarTema() {
+        try {
+            SharedPreferences preferences = getContext().getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
+            int themeId = preferences.getInt("selected_theme", R.style.Base_Theme__360ChatApp); // Default theme
+            getContext().setTheme(themeId);
+        }catch (Exception e){
+
+        }
+    }
     private void cargarRecursosVista(View view) {
         //Imagen
         imagenPerfil = view.findViewById(R.id.imagen_usuario_perfil);

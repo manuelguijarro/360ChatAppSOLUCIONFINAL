@@ -15,4 +15,9 @@
 
     <color name="color_mensaje_enviado">#1E88E5</color>
     <color name="color_mensaje_recibido">#7CB342</color>
+
+
+    <color name="resaltado">#FF4081</color>
+    <color name="transparente">#00000000</color>
+    <color name="normal">#FFFFFF</color>
 </resources>

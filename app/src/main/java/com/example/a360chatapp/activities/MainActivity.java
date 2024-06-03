@@ -56,13 +56,26 @@ public class MainActivity extends AppCompatActivity {
             cargarEventoBtnBuscar();
             cargarEventoMenuInferior();
             actualizarUI();
+            if (savedInstanceState == null) {
+                bottomNavigationView.setSelectedItemId(R.id.menu_chats);
+            } else {
+                bottomNavigationView.setSelectedItemId(obtenerMenuItemSeleccionado());
+            }
             obtenerTokenNotificacion();
 
         }else{
             cargarActivityInicioSesion();
         }
     }
+    private int obtenerMenuItemSeleccionado() {
+        try {
+            SharedPreferences preferences = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
+            return preferences.getInt("selected_menu_item", R.id.menu_chats);
+        }catch (Exception e){
 
+        }
+        return 0;
+    }
     private void aplicarTema() {
         try {
             SharedPreferences preferences = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);

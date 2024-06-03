@@ -1,10 +1,14 @@
 package com.example.a360chatapp.activities;
 
 import android.app.DownloadManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +34,7 @@ public class BuscarUsuarioActivity extends AppCompatActivity {
     private BuscarUsuarioRecyclerViewAdapter buscarUsuarioRecyclerViewAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        aplicarTema();
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_buscar_usuario);
@@ -41,9 +46,36 @@ public class BuscarUsuarioActivity extends AppCompatActivity {
         cargarRecursosVista();
         inputBuscar.requestFocus();
         cargarEventosBtn();
+        actualizarUI();
+    }
+    private void actualizarUI() {
+        try {
+            TypedValue typedValue = new TypedValue();
+            getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+            int colorPrimary = typedValue.data;
+
+            // Actualiza el fondo del toolbar
+            RelativeLayout toolbar = findViewById(R.id.toolbar);
+            toolbar.setBackgroundColor(colorPrimary);
+
+            // Actualiza otros componentes si es necesario
+            ImageButton btnBuscarUsuario = findViewById(R.id.btn_buscar_usuario);
+            btnBuscarUsuario.setColorFilter(colorPrimary);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    private void aplicarTema() {
+        try {
+            SharedPreferences preferences = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
+            int themeId = preferences.getInt("selected_theme", R.style.Base_Theme__360ChatApp); // Default theme
+            setTheme(themeId);
+        }catch (Exception e){
 
+        }
+    }
 
 
     private void cargarRecursosVista(){
