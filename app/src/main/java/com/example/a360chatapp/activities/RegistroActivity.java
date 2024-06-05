@@ -93,11 +93,7 @@ public class RegistroActivity extends AppCompatActivity {
                         continuarProcesoRegistro();
                     } else {
                         setEnProgreso(false);
-                        // If sign in fails, display a message to the user.
-                       // Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        //Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
-                        //        Toast.LENGTH_SHORT).show();
-                        //updateUI(null);
+
                     }
                 });
     }
@@ -111,8 +107,7 @@ public class RegistroActivity extends AppCompatActivity {
             String nombreUsuario = emailUsuario.split("@")[0];
             Usuario usuario = new Usuario(usuarioUid, nombreUsuario, emailUsuario, Timestamp.now());
             FirebaseUtil.obtenerDetallesUsuarioActual().set(usuario).addOnCompleteListener(task -> {
-                //Aqui iria codigo si queremos notificar.
-                //Lo enviamos al main porque a tenido exito
+
                 cargarActivityMain();
             }).addOnFailureListener(e -> {
                 //AQUI IRIA EN CASO DE FALLO PARA NOTIFICAR AL USUARIO
