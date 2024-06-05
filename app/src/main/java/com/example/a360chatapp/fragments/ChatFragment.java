@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.a360chatapp.R;
+import com.example.a360chatapp.WrapContentLinearLayoutManager;
 import com.example.a360chatapp.adapters.ListaChatRecyclerViewAdapter;
 import com.example.a360chatapp.db.models.Chat;
 import com.example.a360chatapp.firebase.FirebaseUtil;
@@ -47,7 +48,7 @@ public class ChatFragment extends Fragment {
                 .Builder<Chat>()
                 .setQuery(query, Chat.class).build();
         listaChatRecyclerViewAdapter = new ListaChatRecyclerViewAdapter(opt, getContext());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));//antes new LinearLayoutManager(getContext())
         recyclerView.setAdapter(listaChatRecyclerViewAdapter);
     }
 

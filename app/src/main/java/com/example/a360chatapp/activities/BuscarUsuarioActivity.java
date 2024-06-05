@@ -97,22 +97,27 @@ public class BuscarUsuarioActivity extends AppCompatActivity {
 
     private void cargarEventoBuscar(View view) {
         String emailABuscar = inputBuscar.getText().toString().trim();
-        if (emailABuscar.isEmpty() || 3 > emailABuscar.length()){
+
+        if (!isValidEmail(emailABuscar)) {
             inputBuscar.setError("Email no válido");
             return;
         }
         actualizarResultadoRecyclerView(emailABuscar);
     }
 
+    private boolean isValidEmail(String email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
     private void actualizarResultadoRecyclerView(String emailABuscar) {
         Query query = FirebaseUtil.usuariosCollectionReference()
-                .whereGreaterThanOrEqualTo("email",emailABuscar);
+                .whereEqualTo("email", emailABuscar);
 
         FirestoreRecyclerOptions<Usuario> opt = new FirestoreRecyclerOptions
                 .Builder<Usuario>()
-                .setQuery(query,Usuario.class).build();
-        buscarUsuarioRecyclerViewAdapter = new BuscarUsuarioRecyclerViewAdapter(opt,getApplicationContext());
-        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));//antes new LinearLayoutManager(this)
+                .setQuery(query, Usuario.class).build();
+        buscarUsuarioRecyclerViewAdapter = new BuscarUsuarioRecyclerViewAdapter(opt, getApplicationContext());
+        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(buscarUsuarioRecyclerViewAdapter);
         buscarUsuarioRecyclerViewAdapter.startListening();
     }
