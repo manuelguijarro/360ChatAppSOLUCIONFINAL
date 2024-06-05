@@ -1,15 +1,12 @@
 package com.example.a360chatapp.fragments;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.a360chatapp.R;
 import com.example.a360chatapp.adapters.ListaChatRecyclerViewAdapter;
 import com.example.a360chatapp.db.models.Chat;

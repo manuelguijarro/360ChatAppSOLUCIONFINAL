@@ -71,7 +71,7 @@
     
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/buscar_usuario_layout_re"
         android:padding="10dp"
         android:id="@+id/buscar_usuario_recycler_view"

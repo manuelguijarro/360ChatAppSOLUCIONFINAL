@@ -37,22 +37,23 @@ public class BuscarUsuarioRecyclerViewAdapter extends FirestoreRecyclerAdapter<U
 
         if(usuario.getId().equals(FirebaseUtil.obtenerUsuarioUid())){
             usuarioViewHolder.textViewNombreUsuario.setText(usuario.getNombre()+ "(Yo)");
-
         }
+
         FirebaseUtil.obtenerOtraReferenciaStorage(usuario.getId()).getDownloadUrl().addOnCompleteListener(t -> {
             if (t.isSuccessful()){
                 Uri uri = t.getResult();
                 GeneralUtil.setImagenPerfil(context,uri,usuarioViewHolder.imagenPerfil);
             }
         });
-        usuarioViewHolder.itemView.setOnClickListener(v -> {
-            //De aquí iremos al chat activity
-            Intent intent = new Intent(context, ChatIndividualActivity.class);
 
-            IntentUtil.enviarUsuarioIntent(intent,usuario);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
-        });
+        usuarioViewHolder.itemView.setOnClickListener(v -> abrirChatIndividual(usuario));
+    }
+
+    private void abrirChatIndividual(Usuario usuario) {
+        Intent intent = new Intent(context, ChatIndividualActivity.class);
+        IntentUtil.enviarUsuarioIntent(intent, usuario);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     @NonNull
@@ -60,6 +61,12 @@ public class BuscarUsuarioRecyclerViewAdapter extends FirestoreRecyclerAdapter<U
     public UsuarioViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.buscar_usuario_recycler_row, parent, false);
         return new UsuarioViewHolder(view);
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull UsuarioViewHolder holder) {
+        super.onViewRecycled(holder);
+        holder.limpiarDatos();
     }
 
     public class UsuarioViewHolder extends RecyclerView.ViewHolder{
@@ -73,6 +80,12 @@ public class BuscarUsuarioRecyclerViewAdapter extends FirestoreRecyclerAdapter<U
             textViewNombreUsuario = itemView.findViewById(R.id.nombre_usuario_text_view);
             textViewEmailUsuario = itemView.findViewById(R.id.email_usuario_text_view);
             imagenPerfil = itemView.findViewById(R.id.perfil_imagen_view);
+        }
+
+        public void limpiarDatos() {
+            textViewNombreUsuario.setText("");
+            textViewEmailUsuario.setText("");
+            imagenPerfil.setImageDrawable(null);
         }
     }
 }

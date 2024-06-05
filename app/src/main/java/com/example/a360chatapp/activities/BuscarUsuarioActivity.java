@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.a360chatapp.R;
+import com.example.a360chatapp.WrapContentLinearLayoutManager;
 import com.example.a360chatapp.adapters.BuscarUsuarioRecyclerViewAdapter;
 import com.example.a360chatapp.db.models.Usuario;
 import com.example.a360chatapp.firebase.FirebaseUtil;
@@ -111,7 +112,7 @@ public class BuscarUsuarioActivity extends AppCompatActivity {
                 .Builder<Usuario>()
                 .setQuery(query,Usuario.class).build();
         buscarUsuarioRecyclerViewAdapter = new BuscarUsuarioRecyclerViewAdapter(opt,getApplicationContext());
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));//antes new LinearLayoutManager(this)
         recyclerView.setAdapter(buscarUsuarioRecyclerViewAdapter);
         buscarUsuarioRecyclerViewAdapter.startListening();
     }
@@ -123,7 +124,13 @@ public class BuscarUsuarioActivity extends AppCompatActivity {
             buscarUsuarioRecyclerViewAdapter.startListening();
         }
     }
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (buscarUsuarioRecyclerViewAdapter != null) {
+            buscarUsuarioRecyclerViewAdapter.stopListening();
+        }
+    }
     @Override
     protected void onStop() {
         super.onStop();
@@ -135,11 +142,11 @@ public class BuscarUsuarioActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (null != buscarUsuarioRecyclerViewAdapter){
-            buscarUsuarioRecyclerViewAdapter.startListening();
+        if (buscarUsuarioRecyclerViewAdapter != null) {
+            buscarUsuarioRecyclerViewAdapter.stopListening(); // Detener el adaptador
+            buscarUsuarioRecyclerViewAdapter.startListening(); // Volver a iniciar el adaptador
         }
     }
-
     private void cargarEventoVolver(View view) {
         onBackPressed();
     }

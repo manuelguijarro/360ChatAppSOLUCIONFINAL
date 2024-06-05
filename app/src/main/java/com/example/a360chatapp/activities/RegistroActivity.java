@@ -1,6 +1,5 @@
 package com.example.a360chatapp.activities;
 
-
 import static com.example.a360chatapp.firebase.FirebaseUtil.obtenerUsuarioUid;
 
 import android.content.Intent;
@@ -27,7 +26,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 
-
 public class RegistroActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private EditText editTextPassword;
@@ -35,6 +33,7 @@ public class RegistroActivity extends AppCompatActivity {
     private Button btnRegistrarse;
     private Button btnVolverAtras;
     private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,30 +59,42 @@ public class RegistroActivity extends AppCompatActivity {
         btnVolverAtras = findViewById(R.id.volverButton);
         //progressBar
         progressBar = findViewById(R.id.progressBarRegistro);
-
     }
+
     private void cargarEventosBtn() {
         btnRegistrarse.setOnClickListener(this::enviarFormulario);
         btnVolverAtras.setOnClickListener(this::cargarActivityInicioSesion);
     }
+
     private void enviarFormulario(View v) {
         setEnProgreso(true);
         String emailUsuario = editTextEmail.getText().toString();
         String passwordUsuario = editTextPassword.getText().toString();
         String passwordRepetirUsuario = editTextRepetirPassword.getText().toString();
 
-        if (passwordUsuario.equals(passwordRepetirUsuario) &&
-                EmailController.comprobarEmail(emailUsuario) &&
-                PasswordController.comprobarPassword(passwordUsuario) &&
-                PasswordController.comprobarPassword(passwordRepetirUsuario)) {
+        boolean isValid = true;
 
-            crearNuevoUsuarioAuth( emailUsuario, passwordUsuario);
+        if (!EmailController.comprobarEmail(emailUsuario)) {
+            editTextEmail.setError("Correo electrónico no válido");
+            isValid = false;
+        }
+
+        if (!PasswordController.comprobarPassword(passwordUsuario)) {
+            editTextPassword.setError("Contraseña no válida");
+            isValid = false;
+        }
+
+        if (!passwordUsuario.equals(passwordRepetirUsuario)) {
+            editTextRepetirPassword.setError("Las contraseñas no coinciden");
+            isValid = false;
+        }
+
+        if (isValid) {
+            crearNuevoUsuarioAuth(emailUsuario, passwordUsuario);
         } else {
-            // mostrarMensajeAlerta("Datos incorrectos, vuelve a introducir los datos correctamente");
             setEnProgreso(false);
         }
     }
-
 
     private void crearNuevoUsuarioAuth(String email, String password){
         String passwordCifrada = PasswordController.get_SHA_512_SecurePassword(password,"ambgk");
@@ -93,42 +104,51 @@ public class RegistroActivity extends AppCompatActivity {
                         continuarProcesoRegistro();
                     } else {
                         setEnProgreso(false);
-
+                        // Mostrar error al usuario
+                        editTextEmail.setError("Error al crear el usuario");
                     }
+                }).addOnFailureListener(e -> {
+                    setEnProgreso(false);
+                    editTextEmail.setError("Error: " + e.getMessage());
                 });
     }
+
     private void continuarProcesoRegistro(){
         crearNuevoUsuarioDB();
     }
-    public  void crearNuevoUsuarioDB() {
+
+    public void crearNuevoUsuarioDB() {
         try {
             String usuarioUid = FirebaseUtil.obtenerUsuarioUid();
             String emailUsuario = FirebaseUtil.obtenerUsuarioEmail();
             String nombreUsuario = emailUsuario.split("@")[0];
             Usuario usuario = new Usuario(usuarioUid, nombreUsuario, emailUsuario, Timestamp.now());
-            FirebaseUtil.obtenerDetallesUsuarioActual().set(usuario).addOnCompleteListener(task -> {
-
-                cargarActivityMain();
-            }).addOnFailureListener(e -> {
-                //AQUI IRIA EN CASO DE FALLO PARA NOTIFICAR AL USUARIO
-            });
+            FirebaseUtil.obtenerDetallesUsuarioActual().set(usuario)
+                    .addOnCompleteListener(task -> cargarActivityMain())
+                    .addOnFailureListener(e -> {
+                        setEnProgreso(false);
+                        // Mostrar error al usuario
+                        editTextEmail.setError("Error al guardar los detalles del usuario");
+                    });
         } catch (Exception e) {
+            setEnProgreso(false);
+            editTextEmail.setError("Excepción: " + e.getMessage());
             e.printStackTrace();
         }
-
-
     }
+
     private void setEnProgreso(boolean enProgreso){
         if (enProgreso){
             btnRegistrarse.setVisibility(View.GONE);
             btnVolverAtras.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             btnRegistrarse.setVisibility(View.VISIBLE);
             btnVolverAtras.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
         }
     }
+
     private void cargarActivityInicioSesion(View view) {
         try {
             new Handler().postDelayed(() -> {
@@ -136,10 +156,11 @@ public class RegistroActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }, 1000);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     private void cargarActivityMain() {
         try {
             new Handler().postDelayed(() -> {
@@ -147,7 +168,7 @@ public class RegistroActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }, 1000);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
