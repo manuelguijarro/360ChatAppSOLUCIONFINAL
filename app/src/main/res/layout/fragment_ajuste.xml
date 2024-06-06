@@ -24,24 +24,63 @@
         android:gravity="center"
 
         android:orientation="horizontal">
-        <TextView
-            android:id="@+id/textViewIdiomaES"
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="10dp"
-            android:text="ES"
-            android:textStyle="bold"
-            />
-        <TextView
-            android:id="@+id/textViewIdiomaUS"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewIdiomaUS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="US"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/elevacion_texto_en"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:visibility="gone" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="10dp"
-            android:text="US"
-            android:textStyle="bold"
-            />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewIdiomaES"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="ES"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/elevacion_texto_es"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:visibility="gone" />
+        </LinearLayout>
+
+
+
+
     </LinearLayout>
     <TextView
         android:id="@+id/textView"

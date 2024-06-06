@@ -27,7 +27,11 @@ public class AjusteFragment extends Fragment {
     private TextView elevacionAmarillo;
     private TextView elevacionVerde;
     private TextView elevacionAzul;
-
+    private TextView btnIdiomaES;
+    private TextView btnIdiomaEN;
+    private TextView elevacionES;
+    private TextView elevacionEN;
+    private String textoIdioma;
 
     public AjusteFragment() {
     }
@@ -73,6 +77,18 @@ public class AjusteFragment extends Fragment {
             elevacionVerde.setVisibility(View.VISIBLE);
             cargarColorPrimario(R.style.OverlayThemeVerdeClaro);
         });
+        btnIdiomaEN.setOnClickListener(v ->{
+            anularElevacionesTexto();
+            elevacionEN.setVisibility(View.VISIBLE);
+            textoIdioma = "en";
+
+        });
+        btnIdiomaES.setOnClickListener(v ->{
+            anularElevacionesTexto();
+            elevacionES.setVisibility(View.VISIBLE);
+            textoIdioma = "es";
+
+        });
         btnEnviarAjustes.setOnClickListener(v -> actualizarAjustes());
     }
 
@@ -83,7 +99,11 @@ public class AjusteFragment extends Fragment {
         elevacionVerde.setVisibility(View.GONE);
         elevacionAzul.setVisibility(View.GONE);
     }
+    private void anularElevacionesTexto() {
+        elevacionEN.setVisibility(View.GONE);
+        elevacionES.setVisibility(View.GONE);
 
+    }
     private void actualizarAjustes() {
         if (-1 != numeroColorTheme){
             SharedPreferences preferences = requireActivity().getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
@@ -105,9 +125,10 @@ public class AjusteFragment extends Fragment {
         elevacionMarron = view.findViewById(R.id.elevacion_color_marron);
         elevacionVerde = view.findViewById(R.id.elevacion_color_verde);
         elevacionAzul = view.findViewById(R.id.elevacion_color_azul);
-
-
-
+        elevacionEN = view.findViewById(R.id.elevacion_texto_en);
+        elevacionES = view.findViewById(R.id.elevacion_texto_es);
+        btnIdiomaES = view.findViewById(R.id.textViewIdiomaES);
+        btnIdiomaEN = view.findViewById(R.id.textViewIdiomaUS);
         btnColorAzul = view.findViewById(R.id.btn_color_primario_azul);
         btnColorRosa = view.findViewById(R.id.btn_color_primario_rosa);
         btnColorMarron = view.findViewById(R.id.btn_color_primario_marron);
