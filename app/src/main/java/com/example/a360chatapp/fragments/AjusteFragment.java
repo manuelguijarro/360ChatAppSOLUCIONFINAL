@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.example.a360chatapp.R;
 
+import java.util.Locale;
+
 public class AjusteFragment extends Fragment {
 
     private Button btnColorAzul;
@@ -104,15 +106,28 @@ public class AjusteFragment extends Fragment {
         elevacionES.setVisibility(View.GONE);
 
     }
+    private void cambiarIdioma(String languageCode) {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        Context context = requireActivity().getBaseContext();
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.setLocale(locale);
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+    }
     private void actualizarAjustes() {
+        SharedPreferences preferences = requireActivity().getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
         if (-1 != numeroColorTheme){
-            SharedPreferences preferences = requireActivity().getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
             editor.putInt("selected_theme", numeroColorTheme);
             editor.putInt("selected_menu_item", R.id.menu_ajustes);
-            editor.apply();
-            requireActivity().recreate();
+
         }
+        if (textoIdioma != null) {
+            editor.putString("selected_language", textoIdioma);
+            cambiarIdioma(textoIdioma);
+        }
+        editor.apply();
+        requireActivity().recreate();
     }
 
 
