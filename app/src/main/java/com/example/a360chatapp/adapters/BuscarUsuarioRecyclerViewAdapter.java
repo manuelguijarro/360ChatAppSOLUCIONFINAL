@@ -32,21 +32,26 @@ public class BuscarUsuarioRecyclerViewAdapter extends FirestoreRecyclerAdapter<U
 
     @Override
     protected void onBindViewHolder(@NonNull UsuarioViewHolder usuarioViewHolder, int i, @NonNull Usuario usuario) {
-        usuarioViewHolder.textViewNombreUsuario.setText(usuario.getNombre());
-        usuarioViewHolder.textViewEmailUsuario.setText(usuario.getEmail());
+        try {
+            usuarioViewHolder.textViewNombreUsuario.setText(usuario.getNombre());
+            usuarioViewHolder.textViewEmailUsuario.setText(usuario.getEmail());
 
-        if(usuario.getId().equals(FirebaseUtil.obtenerUsuarioUid())){
-            usuarioViewHolder.textViewNombreUsuario.setText(usuario.getNombre()+ "(Yo)");
+            if(usuario.getId().equals(FirebaseUtil.obtenerUsuarioUid())){
+                usuarioViewHolder.textViewNombreUsuario.setText(usuario.getNombre()+ "(Yo)");
+            }
+
+            FirebaseUtil.obtenerOtraReferenciaStorage(usuario.getId()).getDownloadUrl().addOnCompleteListener(t -> {
+                if (t.isSuccessful()){
+                    Uri uri = t.getResult();
+                    GeneralUtil.setImagenPerfil(context,uri,usuarioViewHolder.imagenPerfil);
+                }
+            });
+
+            usuarioViewHolder.itemView.setOnClickListener(v -> abrirChatIndividual(usuario));
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
-        FirebaseUtil.obtenerOtraReferenciaStorage(usuario.getId()).getDownloadUrl().addOnCompleteListener(t -> {
-            if (t.isSuccessful()){
-                Uri uri = t.getResult();
-                GeneralUtil.setImagenPerfil(context,uri,usuarioViewHolder.imagenPerfil);
-            }
-        });
-
-        usuarioViewHolder.itemView.setOnClickListener(v -> abrirChatIndividual(usuario));
     }
 
     private void abrirChatIndividual(Usuario usuario) {

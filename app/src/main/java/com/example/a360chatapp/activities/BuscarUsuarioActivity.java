@@ -31,8 +31,10 @@ public class BuscarUsuarioActivity extends AppCompatActivity {
     private EditText inputBuscar;
     private ImageButton btnBuscar;
     private ImageButton btnVolver;
+    private ImageButton btnBuscarTodos;
     private RecyclerView recyclerView;
     private BuscarUsuarioRecyclerViewAdapter buscarUsuarioRecyclerViewAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         aplicarTema();
@@ -85,6 +87,7 @@ public class BuscarUsuarioActivity extends AppCompatActivity {
         //botones
         btnBuscar = findViewById(R.id.btn_buscar_usuario);
         btnVolver = findViewById(R.id.btn_volver);
+        btnBuscarTodos = findViewById(R.id.btn_buscar_todos);
         //RecyclerView
         recyclerView = findViewById(R.id.buscar_usuario_recycler_view);
 
@@ -93,8 +96,21 @@ public class BuscarUsuarioActivity extends AppCompatActivity {
     private void cargarEventosBtn() {
         btnVolver.setOnClickListener(this::cargarEventoVolver);
         btnBuscar.setOnClickListener(this::cargarEventoBuscar);
+        btnBuscarTodos.setOnClickListener(v -> {
+            actualizarResultadoRecyclerViewTodos();
+        });
     }
+    private void actualizarResultadoRecyclerViewTodos() {
+        Query query = FirebaseUtil.usuariosCollectionReference();
 
+        FirestoreRecyclerOptions<Usuario> opt = new FirestoreRecyclerOptions
+                .Builder<Usuario>()
+                .setQuery(query, Usuario.class).build();
+        buscarUsuarioRecyclerViewAdapter = new BuscarUsuarioRecyclerViewAdapter(opt, getApplicationContext());
+        recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(buscarUsuarioRecyclerViewAdapter);
+        buscarUsuarioRecyclerViewAdapter.startListening();
+    }
     private void cargarEventoBuscar(View view) {
         String emailABuscar = inputBuscar.getText().toString().trim();
 

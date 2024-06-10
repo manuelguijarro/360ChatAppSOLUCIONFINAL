@@ -35,6 +35,7 @@
             android:id="@+id/btn_volver" />
 
 
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -47,7 +48,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_rounded_corner"            android:layout_margin="10dp"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:layout_margin="10dp"
             android:hint="@string/introduce_email_buscar"
             android:textSize="15dp"
             android:padding="10dp"
@@ -59,14 +61,25 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/icon_search"
-            android:layout_alignParentEnd="true"
             android:id="@+id/btn_buscar_usuario"
             android:layout_centerVertical="true"
             app:tint="@color/primario"
             android:padding="4dp"
             android:layout_margin="10dp"
-            android:background="?attr/selectableItemBackgroundBorderless"/>
-
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_toLeftOf="@+id/btn_buscar_todos"
+            />
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_contact_mail_24"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            app:tint="@color/primario"
+            android:padding="4dp"
+            android:layout_margin="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:id="@+id/btn_buscar_todos" />
     </RelativeLayout>
     
     <androidx.recyclerview.widget.RecyclerView

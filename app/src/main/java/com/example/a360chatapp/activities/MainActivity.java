@@ -3,6 +3,7 @@ package com.example.a360chatapp.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -28,6 +29,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
@@ -84,6 +87,18 @@ public class MainActivity extends AppCompatActivity {
         try {
             SharedPreferences preferences = getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
             int themeId = preferences.getInt("selected_theme", R.style.Base_Theme__360ChatApp);
+            String idiomaSeleccionado = preferences.getString("selected_language", null);
+
+            // Configurar el idioma si está definido
+            if (idiomaSeleccionado != null) {
+                Locale locale = new Locale(idiomaSeleccionado);
+                Locale.setDefault(locale);
+                Configuration config = new Configuration();
+                config.locale = locale;
+                getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+            }
+
+            // Establecer el tema
             setTheme(themeId);
         } catch (Exception e) {
             e.printStackTrace();
